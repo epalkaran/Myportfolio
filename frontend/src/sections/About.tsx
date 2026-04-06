@@ -58,7 +58,7 @@ function About() {
 
       {showCert && (
         <PdfModal
-          src="/CKAD_Cert.pdf"
+          src={`${import.meta.env.BASE_URL}CKAD_Cert.pdf`}
           title="CKAD - Certified Kubernetes Application Developer"
           onClose={() => setShowCert(false)}
         />

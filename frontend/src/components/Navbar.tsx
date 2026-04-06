@@ -64,7 +64,7 @@ function Navbar() {
 
       {showResume && (
         <PdfModal
-          src="/Palkaran_Kaur_1.pdf"
+          src={`${import.meta.env.BASE_URL}Palkaran_Kaur_1.pdf`}
           title="Resume — Palkaran Kaur"
           onClose={() => setShowResume(false)}
         />
