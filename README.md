@@ -1,36 +1,41 @@
 # Portfolio — Palkaran Kaur
 
-A personal portfolio website showcasing projects, skills, experience, and contact information. Built as a full-stack application with a React frontend served by a Spring Boot backend.
+A personal portfolio website showcasing projects, skills, experience, and contact information.
 
 ## Tech Stack
 
-### Frontend
+### Frontend (deployed)
 - **React 19** with TypeScript
 - **Vite** — build tool and dev server
 - Sections: Hero, About, Skills, Experience, Projects, Contact
 - Components: Navbar, Footer, PDF Modal, Section Headings
 
-### Backend
+### Backend (local API)
 - **Java 21** with **Spring Boot 3.5**
 - REST API (`/api/*`) for projects, skills, experience, and resume
-- Serves the built React frontend as static files in production
 - Spring Boot Actuator for health monitoring
 
-### Deployment
-- **Docker** multi-stage build (Node + Maven + JRE)
-- **Render** free tier via `render.yaml` blueprint
+### Hosting
+- **GitHub Pages** — free, auto-deployed via GitHub Actions on every push to `master`
 
 ## Prerequisites
 
 - **Node.js** 20+
-- **Java** 21+
-- **Maven** (or use the included `mvnw` wrapper)
+- **Java** 21+ (only if running the backend locally)
 
 ## Running Locally
 
-### Option 1: Frontend and backend separately (for development)
+**Frontend only (sufficient for most development):**
 
-**Backend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open http://localhost:3000
+
+**Backend (optional, for API development):**
 
 ```bash
 cd backend
@@ -39,48 +44,28 @@ cd backend
 
 Runs on http://localhost:8080
 
-**Frontend:**
+## Deployment
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+The site auto-deploys to GitHub Pages on every push to `master` via the GitHub Actions workflow at `.github/workflows/deploy.yml`.
 
-Runs on http://localhost:3000 with API requests proxied to `:8080`.
-
-### Option 2: Single bundled app (production-like)
-
-```bash
-cd backend
-./mvnw package -DskipTests
-java -jar target/backend-0.0.1-SNAPSHOT.jar
-```
-
-This builds the React frontend, copies it into Spring Boot's static resources, and packages everything into a single JAR. Open http://localhost:8080.
-
-### Option 3: Docker
-
-```bash
-docker build -t my-portfolio .
-docker run -p 8080:8080 my-portfolio
-```
-
-Open http://localhost:8080.
+**First-time setup on GitHub:**
+1. Go to your repo → **Settings** → **Pages**
+2. Under **Source**, select **GitHub Actions**
+3. Push to `master` — the workflow builds and deploys automatically
 
 ## Project Structure
 
 ```
 my-portfolio/
-├── frontend/          # React + Vite + TypeScript
+├── frontend/             # React + Vite + TypeScript (deployed to GitHub Pages)
+│   ├── public/           # Static assets (PDFs, favicon)
 │   └── src/
-│       ├── sections/  # Hero, About, Skills, Experience, Projects, Contact
-│       └── components/# Navbar, Footer, PdfModal, SectionHeading
-├── backend/           # Spring Boot REST API
+│       ├── sections/     # Hero, About, Skills, Experience, Projects, Contact
+│       └── components/   # Navbar, Footer, PdfModal, SectionHeading
+├── backend/              # Spring Boot REST API (local development)
 │   └── src/main/java/com/palak/portfolio/
-│       ├── controller/# Health, Project, Resume endpoints
-│       ├── model/     # Project, Experience, Skill
-│       └── config/    # CORS and SPA routing
-├── Dockerfile         # Multi-stage production build
-└── render.yaml        # Render deployment blueprint
+│       ├── controller/   # Health, Project, Resume endpoints
+│       ├── model/        # Project, Experience, Skill
+│       └── config/       # CORS config
+└── .github/workflows/    # GitHub Actions deployment
 ```
